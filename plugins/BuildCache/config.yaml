@@ -1,6 +1,6 @@
 name: BuildCache
-id:   buildcache
-key:  BuildCache
+id:   BuildCache
+key:  buildcache
 version: 0.1
 author_link: https://alfasado.net/
 author_name: Alfasado Inc.

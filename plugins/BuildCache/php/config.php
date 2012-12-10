@@ -22,25 +22,29 @@ class BuildCache extends MTPlugin {
         }
         require_once( 'class.mt_session.php' );
         $session = new Session;
-        $duration = time();
-        $where = "session_id = '{$key}' AND session_duration > '{$duration}'";
+        $where = "session_id = '{$key}'";// AND session_duration > '{$duration}'";
         $extra = array( 'limit' => 1 );
         $cache = $session->Find( $where, FALSE, FALSE, $extra );
+        $duration = time();
         if ( isset( $cache ) ) {
-            $ctx->stash( 'buildcache:' . $key, $cache[ 0 ]->data );
-            return $cache[ 0 ]->data;
-        } else {
-            if ( isset( $content ) ) {
-                $session->session_id = $key;
-                $session->session_kind = 'CO';
-                $session->session_start = $duration;
-                $session->session_duration = $duration + $ttl;
-                $session->data = $content;
-                $session->Save();
+            if ( $cache->duration < $duration ) {
                 $repeat = FALSE;
-                $ctx->stash( 'buildcache:' . $key, $content );
-                return $content;
+                $ctx->stash( 'buildcache:' . $key, $cache[ 0 ]->data );
+                return $cache[ 0 ]->data;
+            } else {
+                $cache->Remove();
             }
+        }
+        if ( isset( $content ) ) {
+            $session->session_id = $key;
+            $session->session_kind = 'CO';
+            $session->session_start = $duration;
+            $session->session_duration = $duration + $ttl;
+            $session->data = $content;
+            $session->Save();
+            $repeat = FALSE;
+            $ctx->stash( 'buildcache:' . $key, $content );
+            return $content;
         }
     }
 }

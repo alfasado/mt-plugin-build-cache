@@ -54,7 +54,7 @@ class BuildCache extends MTPlugin {
                     $ctx->stash( 'buildcache:' . $key, $session->data );
                     return $ctx->_hdlr_if( $args, $content, $ctx, $repeat, TRUE );
                 } else {
-                    $session->Remove();
+                    $session->Delete();
                 }
             }
             return $ctx->_hdlr_if( $args, $content, $ctx, $repeat, FALSE );
@@ -80,7 +80,7 @@ class BuildCache extends MTPlugin {
                     echo $session->session_data;
                     return;
                 } else {
-                    $session->Remove();
+                    $session->Delete();
                 }
             }
         }

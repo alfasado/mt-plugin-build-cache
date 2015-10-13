@@ -1,11 +1,16 @@
 name: BuildCache
 id:   BuildCache
 key:  buildcache
-version: 0.1
+version: 0.2
 author_link: https://alfasado.net/
 author_name: Alfasado Inc.
 l10n_class: BuildCache::L10N
 description: <__trans phrase="Faster publishing using MTBuildCache tag.">
 tags:
     block:
-        BuildCache: $buildcache::BuildCache::Plugin::_hdlr_buildcache
+        BuildCache: $buildcache::BuildCache::Plugin::_hdlr_buildcache # Backward compatibility
+        CacheContent: $buildcache::BuildCache::Plugin::_hdlr_buildcache
+        IfCachedContent?: $buildcache::BuildCache::Plugin::_hdlr_if_cached_content
+    function:
+        CachedContent: $buildcache::BuildCache::Plugin::_hdlr_cached_content
+        CachedData: $buildcache::BuildCache::Plugin::_hdlr_cached_content
